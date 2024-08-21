@@ -4,3 +4,5 @@ export const LazyPage2 = () => {
     <h1>lazyPage2</h1>
   )
 }
+
+export default LazyPage2;
