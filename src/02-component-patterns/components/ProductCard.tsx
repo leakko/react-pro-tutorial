@@ -1,24 +1,24 @@
-import styles from '../styles/styles.module.css';
-import noImage from '../assets/no-image.jpg'
 import { useProduct } from '../hooks/useProduct';
+import { createContext, useContext } from 'react';
+import { ProductContextProps, ProductCardProps } from '../interfaces/interfaces';
+import styles from '../styles/styles.module.css';
 
-export const ProductCard = () => {
+const ProductContext = createContext<ProductContextProps>({} as ProductContextProps);
+const { Provider } = ProductContext;
+export const useProductContext = () => useContext(ProductContext);
+
+export const ProductCard = ({ children, product }: ProductCardProps) => {
     const { counter, increaseBy } = useProduct();
 
     return (
-        <div className={ styles.productCard }>
-            <img className={styles.productImg} src="./coffee-mug.png" alt="Cofee Mug" />
-            {/* <img className={styles.productImg} src={noImage} alt="No Product" /> */}
-
-            <span className={styles.productDescription}>Coffe Mug</span>
-
-            <div className={styles.buttonsContainer}>
-                <button onClick={() => increaseBy(-1)} className={styles.buttonMinus}>-</button>
-                <div className={styles.countLabel}> { counter } </div>
-                <button onClick={() => increaseBy(+1)} className={styles.buttonAdd}>+</button>
+        <Provider value={{
+            product,
+            counter,
+            increaseBy
+        }}>
+            <div className={ styles.productCard }>
+                { children }
             </div>
-
-        </div>
+        </Provider>
     )
 }
-
